@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "{{ cookiecutter.project_slug }}"
+version = "0.1.0"
+description = "{{ cookiecutter.project_short_description }}"
+readme = "README.md"
+authors = [
+  {name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}"}
+]
+maintainers = [
+  {name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}"}
+]
+license = {text = "{{cookiecutter.open_source_license}}"}
+packages = [{include = "{{ cookiecutter.project_slug }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+# Dev dependencies
+[tool.poetry.group.dev.dependencies]
+cookiecutter = "^2.6.0"
+cruft = "^2.15.0"
+pytest = "^8.3.2"
+coverage = "^7.6.1"
+ruff = "^0.5.7"
+
+
+# Linting rules
+[tool.ruff]
+select = ["I", "F", "E", "W", "N", "D", "ANN", "B", "A", "T20", "PYI", "Q", "RET", "ARG", "PTH", "PL"]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
