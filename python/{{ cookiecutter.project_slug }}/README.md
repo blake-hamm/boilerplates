@@ -12,4 +12,7 @@ conda-shell
 
 # To create conda environment in notebooks directory
 conda env create -f notebooks/environment.yml
+
+# To update with changes
+conda env update --file environment.yml --prune
 ```
