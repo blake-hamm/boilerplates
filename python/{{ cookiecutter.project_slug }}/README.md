@@ -14,5 +14,5 @@ conda-shell
 conda env create -f notebooks/environment.yml
 
 # To update with changes
-conda env update --file environment.yml --prune
+conda env update -f notebooks/environment.yml --prune
 ```
