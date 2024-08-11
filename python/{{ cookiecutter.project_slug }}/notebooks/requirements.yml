@@ -1,0 +1,10 @@
+name: {{ cookicutter.project_slug }}
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10  # Adjust to your Python version
+  - pip
+  - notebook
+  - ipykernel
+  - pip:
+      - -e ../src  # Add your local package
