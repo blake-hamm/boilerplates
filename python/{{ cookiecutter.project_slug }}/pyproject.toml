@@ -31,6 +31,10 @@ pre-commit = "^3.8.0"
 select = ["I", "F", "E", "W", "N", "D", "ANN", "B", "A", "T20", "PYI", "Q", "RET", "ARG", "PTH", "PL", "PT"]
 
 
+[tool.pytest.ini_options]
+adopts = "-s"
+testpaths = ["tests"]
+
 [tool.coverage] # Coverage config
 source = [
   "src",
@@ -39,13 +43,15 @@ source = [
 ]
 
 [tool.coverage.run]
-command = "-m pytest"
+command_line = "-m pytest"
+omit = ["*test*", "*__init__*"]
 
 # Always include branch coverage
 branch = true
 
 [tool.coverage.report]
 fail_under = 80
+ignore_errors = true
 show_missing = true
 
 
