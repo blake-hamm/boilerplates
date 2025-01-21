@@ -6,15 +6,15 @@
   };
 
   outputs = { self, nixpkgs }: {
-    devShells.default = import nixpkgs {
-      system = "x86_64-linux";
-      config = {};
-    }.mkShell {
-      packages = [
-        nixpkgs.pre-commit
-        nixpkgs.poetry
-        nixpkgs.google-cloud-sdk
-      ];
+    devShells = {
+      x86_64-linux = import nixpkgs {
+        system = "x86_64-linux";
+      }.mkShell {
+        packages = [
+          pkgs.pre-commit
+          pkgs.poetry
+          pkgs.google-cloud-sdk
+        ];
+      };
     };
-  };
 }
