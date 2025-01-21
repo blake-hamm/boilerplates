@@ -5,7 +5,7 @@
 #### Helpful commands:
 ```bash
 # To get into a nix-based development environment with python and conda
-nix-shell
+nix develop
 
 # To activate conda
 conda-shell
