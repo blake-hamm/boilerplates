@@ -16,6 +16,7 @@
           pkgs.google-cloud-sdk
         ];
       };
+      default = self.devShells.x86_64-linux;
     };
   };
 }
