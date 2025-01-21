@@ -2,21 +2,47 @@
   description = "Minimal flake for {{ cookiecutter.project_slug }}.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs }: {
-    devShells = {
-      x86_64-linux = let
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
-      in pkgs.mkShell {
-        packages = [
-          pkgs.pre-commit
-          pkgs.poetry
-          pkgs.google-cloud-sdk
-        ];
-      };
-      default = self.devShells.x86_64-linux;
+    outputs = { nixpkgs, self, ... } @ inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+        perSystem = { system, pkgs, lib, ... }:
+        let
+            pkgs = import inputs.nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+            };
+        in {
+            devShells.default =
+                pkgs.mkShell rec {
+                    buildInputs = with pkgs; [
+                        poetry
+                        python312
+                    ];
+
+                    # Required for building C extensions
+                    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+                    # PYTHONPATH is overridden with contents from e.g. poetry */site-package.
+                    # We do not want them to be in PYTHONPATH.
+                    # Therefore, in ./.envrc PYTHONPATH is set to the _PYTHONPATH defined below
+                    # and also in shellHooks (direnv does not load shellHook exports, always).
+                    _PYTHONPATH = "${pkgs.python312}/lib/python3.12/site-packages";
+
+                    shellHook = ''
+                        export PYTHONPATH=$_PYTHONPATH
+
+                        # Specify settings.env file
+                        set -a
+                        source .env
+                        set +a
+
+                        # Setup pre-commit
+                        pre-commit install
+                    '';
+                };
+        };
+        flake = { };
+        systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
     };
-  };
 }

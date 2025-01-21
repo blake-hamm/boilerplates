@@ -13,7 +13,7 @@ license = "{{cookiecutter.open_source_license}}"
 packages = [{include = "{{ cookiecutter.project_slug }}", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 
 
 # Dev dependencies
