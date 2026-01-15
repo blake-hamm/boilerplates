@@ -19,7 +19,17 @@
                     buildInputs = with pkgs; [
                         uv
                         python312
+                        python312Packages.jupyterlab
+                        python312Packages.pip
                     ];
+
+                    # Required for building C extensions
+                    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+                    # PYTHONPATH is overridden with contents from e.g. poetry */site-package.
+                    # We do not want them to be in PYTHONPATH.
+                    # Therefore, in ./.envrc PYTHONPATH is set to the _PYTHONPATH defined below
+                    # and also in shellHooks (direnv does not load shellHook exports, always).
+                    _PYTHONPATH = "${pkgs.python312}/lib/python3.12/site-packages";
 
                     shellHook = ''
                         # Specify settings.env file
