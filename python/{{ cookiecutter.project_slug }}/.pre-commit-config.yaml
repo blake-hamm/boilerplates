@@ -1,15 +1,16 @@
 repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
-  rev: v0.5.7
+- repo: local
   hooks:
-    # Run the linter.
     - id: ruff
-      types_or: [ python, pyi, jupyter ]
-      args: [ --fix ]
-    # Run the formatter.
+      name: ruff
+      entry: ruff check --force-exclude
+      language: system
+      types_or: [python, pyi, jupyter]
     - id: ruff-format
-      types_or: [ python, pyi, jupyter ]
+      name: ruff-format
+      entry: ruff format
+      language: system
+      types_or: [python, pyi, jupyter]
 - repo: local
   hooks:
     - id: run-coverage
