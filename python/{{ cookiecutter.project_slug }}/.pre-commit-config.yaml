@@ -14,7 +14,7 @@ repos:
   hooks:
     - id: run-coverage
       name: Run Coverage
-      entry: uv run coverage run
+      entry: .venv/bin/python -m coverage run
       language: system
       pass_filenames: false  # Prevent passing filenames as arguments
       stages: [pre-commit]
@@ -22,8 +22,7 @@ repos:
   hooks:
     - id: report-coverage
       name: Report Coverage
-      entry: uv run coverage report
+      entry: .venv/bin/python -m coverage report
       language: system
       pass_filenames: false  # Prevent passing filenames as arguments
       stages: [pre-commit]
-
