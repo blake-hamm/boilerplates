@@ -4,15 +4,13 @@
 
 #### Helpful commands:
 ```bash
-# To get into a nix-based development environment with python and conda
+# To get into a nix-based development environment with python and uv
 nix develop
 
-# To activate conda
-conda-shell
+# To create and activate a virtual environment
+uv venv
+source .venv/bin/activate
 
-# To create conda environment in notebooks directory
-conda env create -f notebooks/environment.yml
-
-# To update with changes
-conda env update -f notebooks/environment.yml --prune
+# To install dependencies
+uv sync --all-extras
 ```
