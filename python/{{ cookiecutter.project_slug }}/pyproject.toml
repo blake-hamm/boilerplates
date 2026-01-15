@@ -45,7 +45,7 @@ source = [
 
 [tool.coverage.run]
 command_line = "-m pytest"
-omit = ["*test*", "*__init__*", ".venv/*"]
+omit = ["*test*", "*__init__*", ".venv/*", "*nix/store*"]
 
 # Always include branch coverage
 branch = true
