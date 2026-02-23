@@ -21,6 +21,7 @@
                         python312
                         python312Packages.jupyterlab
                         python312Packages.pip
+                        ruff
                     ];
 
                     # Required for building C extensions
