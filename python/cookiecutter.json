@@ -2,7 +2,8 @@
   "full_name": "Blake Hamm",
   "email": "blake.j.hamm@gmail.com",
   "project_name": "Python Boilerplate",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_slug_snake": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_slug_kebab": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "project_short_description": "Python Boilerplate contains all the boilerplate you need to create a Python package.",
   "open_source_license": "BSD license"
 }

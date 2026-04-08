@@ -1,5 +1,5 @@
 {
-  description = "Minimal flake for {{ cookiecutter.project_slug }}.";
+  description = "Minimal flake for {{ cookiecutter.project_slug_snake }}";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
