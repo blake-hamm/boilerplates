@@ -7,7 +7,7 @@ authors = [
   {name = "{{cookiecutter.full_name}}", email = "{{cookiecutter.email}}"},
 ]
 license = {text = "{{cookiecutter.open_source_license}}"}
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = []
 
 [project.optional-dependencies]
