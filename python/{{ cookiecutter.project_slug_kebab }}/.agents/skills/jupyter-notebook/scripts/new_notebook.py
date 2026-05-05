@@ -1,3 +1,5 @@
+"""Scaffold Jupyter notebooks from bundled experiment and tutorial templates."""
+
 from __future__ import annotations
 
 import argparse
@@ -8,6 +10,7 @@ from typing import Any
 
 
 def slugify(text: str) -> str:
+    """Return a URL-safe slug from freeform text."""
     lowered = text.strip().lower()
     cleaned = re.sub(r"[^a-z0-9]+", "-", lowered)
     collapsed = re.sub(r"-+", "-", cleaned).strip("-")
@@ -15,6 +18,7 @@ def slugify(text: str) -> str:
 
 
 def find_repo_root(start: Path) -> Path:
+    """Return the nearest ancestor containing a .git directory."""
     for candidate in (start, *start.parents):
         if (candidate / ".git").exists():
             return candidate
@@ -22,7 +26,12 @@ def find_repo_root(start: Path) -> Path:
 
 
 def load_template(skill_dir: Path, kind: str) -> dict[str, Any]:
-    asset_name = "experiment-template.ipynb" if kind == "experiment" else "tutorial-template.ipynb"
+    """Load the requested notebook template JSON."""
+    asset_name = (
+        "experiment-template.ipynb"
+        if kind == "experiment"
+        else "tutorial-template.ipynb"
+    )
     template_path = skill_dir / "assets" / asset_name
     if not template_path.exists():
         raise SystemExit(f"Missing template: {template_path}")
@@ -34,6 +43,7 @@ def load_template(skill_dir: Path, kind: str) -> dict[str, Any]:
 
 
 def update_title(notebook: dict[str, Any], kind: str, title: str) -> None:
+    """Overwrite the first markdown cell with the given title."""
     prefix = "Experiment" if kind == "experiment" else "Tutorial"
     expected = f"# {prefix}: {title}\n"
 
@@ -71,12 +81,16 @@ def update_title(notebook: dict[str, Any], kind: str, title: str) -> None:
 
 
 def default_output(repo_root: Path, title: str) -> Path:
+    """Return the default notebook path under output/jupyter-notebook/."""
     filename = f"{slugify(title)}.ipynb"
     return repo_root / "output" / "jupyter-notebook" / filename
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Scaffold a Jupyter notebook for experiments or tutorials.")
+    """Parse CLI arguments."""
+    parser = argparse.ArgumentParser(
+        description="Scaffold a Jupyter notebook for experiments or tutorials."
+    )
     parser.add_argument(
         "--kind",
         choices=["experiment", "tutorial"],
@@ -92,7 +106,10 @@ def parse_args() -> argparse.Namespace:
         "--out",
         type=Path,
         default=None,
-        help="Output path for the notebook. Defaults to output/jupyter-notebook/<slug>.ipynb.",
+        help=(
+            "Output path for the notebook. "
+            "Defaults to output/jupyter-notebook/<slug>.ipynb."
+        ),
     )
     parser.add_argument(
         "--force",
@@ -103,6 +120,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """Entry point: scaffold a notebook from template and write it to disk."""
     args = parse_args()
 
     script_path = Path(__file__).resolve()
@@ -116,7 +134,9 @@ def main() -> None:
     out_path = out_path.resolve()
 
     if out_path.exists() and not args.force:
-        raise SystemExit(f"Refusing to overwrite existing file without --force: {out_path}")
+        raise SystemExit(
+            f"Refusing to overwrite existing file without --force: {out_path}"
+        )
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", encoding="utf-8") as f:
